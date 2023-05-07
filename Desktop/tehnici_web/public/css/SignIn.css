@@ -1,0 +1,88 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  body{
+
+    background-image: url("/assets/img/btc.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    
+  }
+  
+  .login-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 15%;
+  }
+  
+  .login-form h2 {
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+
+  }
+  
+  input[type="email"],
+  input[type="text"],
+  input[type="range"] {
+    width: 90%;
+    padding: 2%;
+    border: 1%px solid #ccc;
+    border-radius: 4px;
+    margin : 0 auto;
+  }
+  
+  
+  
+  
+  #crypto-interest-value {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db; 
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2980b9; 
+  }
+  
+  #ball {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 50%;
+  }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/apple-touch-icon/">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <script src = "javascript/signIn.js"> </script>
+
+    <link rel="stylesheet" href="css/SignIn.css">
+
+
+
+</head>
+<body>
+
+    <form class="login-form">
+        <h2>Create an account</h2>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="crypto-interest">Crypto Interest:</label>
+          <input type="range" id="crypto-interest" name="crypto-interest" min="0" max="100" step="1">
+          <span id="crypto-interest-value">0%</span>
+        </div>
+        <button type="submit">Register</button>
+       
+      </form>
+
+      
+      
+
+
+    
+</body>
+</html>
