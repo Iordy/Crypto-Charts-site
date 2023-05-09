@@ -1,6 +1,13 @@
+
+
+
+
 <!DOCTYPE html>
+
+
 <html lang="en">
 <head>
+
 
 
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/apple-touch-icon/">
@@ -8,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 
-
+    
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,12 +26,14 @@
 
     <link rel="stylesheet" href="css/SignIn.css">
 
+    
+
 
 
 </head>
 <body>
 
-    <form class="login-form">
+    <form class="login-form" method="POST" action = "/login">
         <h2>Login</h2>
         <div class="form-group">
           <label for="email">Email:</label>
@@ -35,7 +44,7 @@
           <input type="text" id="username" name="username" required>
         </div>
         <button type="submit">Login</button>
-        <p class="register-link">Don't have an account? <a href="/Register">Register</a></p>
+        <p class="register-link">Don't have an account? <a href="/register">Register</a></p>
       </form>
       
       <div id="ball"></div>
