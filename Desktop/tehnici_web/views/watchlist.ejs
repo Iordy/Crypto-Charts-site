@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Watchlist</title>
+  <link rel="stylesheet" type="text/css" href="css/watchlist.css">
+</head>
+<body>
+  <header>
+    <h1>My Watchlist</h1>
+  </header>
+
+  
+  <div class="container">
+    <div class="add-form">
+        <form method = "POST">
+      <input type="text" id="cryptocurrencyInput" placeholder="Enter cryptocurrency name" name = "cryptocurrency">
+      <button type = "submit" id="addButton">Add</button>
+        </form>
+    </div>
+    
+    <ul id="watchlist">
+
+    <% const userWatchlist = locals.watchlist; %>
+    <% for(let i = 0; i < userWatchlist.length; i++) { %>
+      <li class="cryptocurrency">
+        <div class="cryptocurrency-name">
+          <span class="delete-button">X</span>
+          <span class="name"><%= userWatchlist[i].token %></span>
+        </div>
+        <div class="cryptocurrency-price">
+          <span class="price"><%= userWatchlist[i].price %></span>
+        </div>
+      </li> 
+      <%}  
+       %>
+    </ul>
+  </div>
+
+
+  
+  <script src="javascript/watchlist_script.js"></script>
+</body>
+</html>
