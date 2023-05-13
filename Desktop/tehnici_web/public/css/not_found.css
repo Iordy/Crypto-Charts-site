@@ -1,0 +1,39 @@
+body{
+    background-image: url("assets/img/chart.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+
+    h1 {
+      font-size: 36px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      color: #777;
+    }
+
+    .emoji {
+      font-size: 72px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    
