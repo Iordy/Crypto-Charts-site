@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  .container
+  {
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  /* Styles for the input field and button */
+  .add-form {
+    margin-top: 20px;
+    margin: 0 auto;
+  }
+  
+  .add-form input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 200px;
+    margin: 0 auto;
+  }
+  
+  .add-form input[type="text"]:focus {
+    outline: none;
+    margin: 0 auto;
+  }
+  
+  .add-form button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .add-form button:hover {
+    background-color: #45a049;
+  }
+  
+
+  #watchlist {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  #watchlist li {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+
+  
+
+  /* Styles for the cryptocurrency class */
+.cryptocurrency {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cryptocurrency span {
+    margin-right: 10px;
+  }
+
+  .remove-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #e74c3c;
+    transition: color 0.3s ease;
+  }
+  
+ .remove-button:hover {
+    
+    color: #c0392b;
+    
+
+  }
+  
+  .cryptocurrency .remove-icon {
+    font-family: "Font Awesome 5 Free";
+  }
+  
+  .cryptocurrency .remove-icon:before {
+    content: "\f2ed";
+  }
+  
+  .cryptocurrency .add-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cryptocurrency input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cryptocurrency .add-button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cryptocurrency .add-button:hover {
+    background-color: #219451;
+  }
+  
