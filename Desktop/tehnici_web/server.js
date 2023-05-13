@@ -13,39 +13,59 @@ app.use(express.json());
 
 const bcrypt = require('bcrypt');
 
+const cookieParser = require('cookie-parser');
+
+const { render } = require('ejs');
+const { get } = require('http');
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-   
-    res.render('index');
-
-    }
-);
-
-
-app.get('/watchlist', (req, res) => {
-
-    res.render('watchlist');
-
-    }
-);
-
-
-app.get('/register', (req, res) => {
-
-    res.render('register');
-
-    console.log(users);
-
-}); 
-
 let users = [];
+
+
+app.get('/', async (req, res) => {
+
+res.render('index');
+
+});
+
+
+app.post('/login', async (req, res) => {
+
+    const users = await getUsers();
+
+    const user = users.find(user => user.email === req.body.email);
+
+    if(user == null){
+        return res.status(400).send('Cannot find user');
+    }
+
+    try{
+        if(user.password == req.body.password){
+            res.cookie('id', user['id']);
+            res.redirect('/watchlist');
+        } else {
+            res.status(401).send('Not Allowed');
+        }
+    } catch {
+        res.status(500).send();
+    }
+
+
+});
+
+app.get('/login', async (req, res) => {
+
+    res.render('login');
+
+});
+
 
 app.post('/register', async (req, res, next) => {
 
@@ -58,42 +78,84 @@ app.post('/register', async (req, res, next) => {
 
    const temp = addUser(user);
 
-  if(temp)
-    res.redirect('/login');
-    else res.redirect('/register', {message: 'User already exists'})
+  if(temp.find(user => user.email === req.body.email))
+    res.redirect('/register', {message: 'User already exists'})
+    else res.redirect('/login');
 
   });
 
 
-app.get('/login', async (req, res) => {
+  app.get('/register', async (req, res) => {
 
-    res.render('login');
+    res.render('register');
 
-    const user = users.find(user => user.username === req.body.username);
+  });
+
+
+
+app.use((req, res, next) => {
+    const { cookies } = req;
+    if (cookies['id']) {
+      next();
+    } else {
+      if (req.path === '/') {
+        return res.redirect('/login');
+      }
+      res.redirect('/');
+    }
+  });
+
+
+
+app.get('/watchlist', async (req, res) => {
+
+
+    const users = await getUsers();
+    const { cookies } = req;
+    const userId = cookies['id'];
+    const user = users.find(user => user.id === userId);
+
+
+    const watchlist = await getWatchlists();
+
+    console.log(watchlist);
+
+    const userWatchlist = watchlist.filter(watchlist => watchlist.id === userId);
+    console.log(userWatchlist);
+
+
     
-
-
-    try {
-
-        if (await bcrypt.compare(req.body.password, user.password)) {
-
-            res.send('Success');
-
-        } else {
-
-            res.send('Not Allowed');
-
-        }
-
+    if (!user) {
+      return res.redirect('/page-not-found',{ message: 'User not found'});
     }
-    catch {
+  
+    res.render('watchlist', { user: user, watchlist: userWatchlist});
 
-        res.status(500).send();
+  });
 
-    }
+
+  app.post('/watchlist', async (req, res) => {
+
+    const cryptoName = req.body.cryptocurrency;
+
+    let watchlist = await getWatchlists();
+  
+    await addWatchlist(req.cookies['id'], cryptoName);
+  
+    res.redirect('/watchlist');
+
+
+  });
+
+
+
+
+
+app.use((req, res, next) => {
+
+    res.status(404).render('page-not-found');
 
 });
-
 
 
 
@@ -118,21 +180,6 @@ function getUsers(){
 }
 
 
-async function addUser(user){
-
-    const users = await getUsers();
-
-    // if the user is not in the array we add it
-    if(containsObject(user, users) == false){
-        users.push(user);
-        fs.writeFile('users.json', JSON.stringify(users), (after) => {});
-        return true;
-    }
-
-    return false;
-
-}
-
 
 function containsObject(obj, list) {
     for (let i = 0; i < list.length; i++) {
@@ -144,6 +191,63 @@ function containsObject(obj, list) {
     return false;
 }
 
+
+
+async function addUser(user){
+
+    const users = await getUsers();
+
+    if(containsObject(user, users) == false){
+        users.push(user);
+        fs.writeFile('users.json', JSON.stringify(users), (after) => {});
+        return true;
+    }
+
+    return false;
+
+}
+
+
+function getWatchlists() {
+
+    return new Promise((resolve, reject) => {
+      const filePath = path.join(cwd(), 'watchlist.json');
+      fs.readFile(filePath, { encoding: 'utf8' }, (err, data) => {
+        if (err) {
+          resolve([]);
+        } else {
+          try {
+            resolve(JSON.parse(data));
+          } catch (err) {
+            resolve([]);
+          }
+        }
+      })
+    })
+  }
+
+
+  
+  async function addWatchlist(userId, ticker) {
+
+    const watchlists = await getWatchlists();
+
+    const user  = userId;
+
+    const symbol = ticker;
+
+    watchlists.push({token: symbol ,id:user});
+  
+    fs.writeFile('watchlist.json', JSON.stringify(watchlists), (after) => {});
+
+  }
+  
+
+
+  
+
+
+  
 
 
 app.listen(3000)
