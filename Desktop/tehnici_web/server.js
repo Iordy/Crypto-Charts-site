@@ -11,12 +11,9 @@ const app = express();
 
 app.use(express.json());
 
-const bcrypt = require('bcrypt');
-
 const cookieParser = require('cookie-parser');
 
-const { render } = require('ejs');
-const { get } = require('http');
+const render = require('ejs');
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -70,13 +67,13 @@ app.get('/login', async (req, res) => {
 app.post('/register', async (req, res, next) => {
 
 
-    const user = {
+  const user = {
         id: Date.now().toString(),
         username: req.body.username,
         email: req.body.email
     }
 
-   const temp = addUser(user);
+  const temp = addUser(user);
 
   if(temp.find(user => user.email === req.body.email))
     res.redirect('/register', {message: 'User already exists'})
@@ -101,37 +98,74 @@ app.use((req, res, next) => {
       if (req.path === '/') {
         return res.redirect('/login');
       }
-      res.redirect('/');
+      res.redirect('/login');
     }
   });
 
 
 
-app.get('/watchlist', async (req, res) => {
+  app.get('/watchlist', async (req, res) => {
+    const users = await getUsers();
+    const { cookies } = req;
+    const userId = cookies['id'];
+    const user = users.find((user) => user.id === userId);
+  
+    const watchlist = await getWatchlists();
+    const userWatchlist = watchlist.filter((watchlist) => watchlist.id === userId);
+  
+
+    let prices = [];
+    let loading = true; 
+  
+
+    const loadingInterval = setInterval(() => {
+  
+
+      if (!loading) {
+        clearInterval(loadingInterval);
+      }
+
+    }, 500);
+  
+    
+
+
+    const renderWatchlist = () => {
+      if (!user) {
+        return res.redirect('/page-not-found', { message: 'User not found' });
+      }
+  
+      res.render('watchlist', { user: user, watchlist: userWatchlist, tokenPrices: prices, loading: !loading });
+    };
+  
+   
+    renderWatchlist();
+  });
+  
+
+  app.get('/profile', async (req, res) => {
 
 
     const users = await getUsers();
     const { cookies } = req;
     const userId = cookies['id'];
-    const user = users.find(user => user.id === userId);
-
-
-    const watchlist = await getWatchlists();
-
-    console.log(watchlist);
-
-    const userWatchlist = watchlist.filter(watchlist => watchlist.id === userId);
-    console.log(userWatchlist);
-
+    const user = users.find((user) => user.id === userId);
+  
+    if (!user) {
+      return res.redirect('/page-not-found', { message: 'User not found' });
+    }
 
     
-    if (!user) {
-      return res.redirect('/page-not-found',{ message: 'User not found'});
-    }
   
-    res.render('watchlist', { user: user, watchlist: userWatchlist});
+    res.render('profile', { userEmail: user.email, userPass: user.username });
+    
+
 
   });
+
+ 
+  
+
 
 
   app.post('/watchlist', async (req, res) => {
@@ -142,11 +176,18 @@ app.get('/watchlist', async (req, res) => {
   
     await addWatchlist(req.cookies['id'], cryptoName);
   
+   
     res.redirect('/watchlist');
-
 
   });
 
+  app.get('/logout', async (req, res) => {
+
+    res.clearCookie('id');
+    res.redirect('/login');
+
+
+  });
 
 
 
@@ -160,7 +201,9 @@ app.use((req, res, next) => {
 
 
 function getUsers(){
-    return new Promise((resolve, reject) =>{
+
+    return new Promise((resolve, reject) =>
+    {
         
         const filePath = path.join(cwd(), 'users.json');
 
@@ -182,10 +225,13 @@ function getUsers(){
 
 
 function containsObject(obj, list) {
+
     for (let i = 0; i < list.length; i++) {
+
         if (list[i]['email'] == obj['email']) {
             return true;
         }
+
     }
 
     return false;
@@ -244,6 +290,17 @@ function getWatchlists() {
   
 
 
+  const getCryptoPrice = async (cryptoName) => {
+
+    const url = `https://min-api.cryptocompare.com/data/price?fsym=${cryptoName}&tsyms=USD`;   
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    return data.USD;
+
+  };
   
 
 
