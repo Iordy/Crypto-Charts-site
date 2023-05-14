@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Page</title>
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+
+    <nav>
+        <ul class="menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/watchlist">Watchlist</a></li>
+          <li class="dropdown">
+            <a href="#">More &#9662;</a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Help</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+
+  <div class="container">
+    <div class="profile-section">
+      <h1>Welcome to Your Profile</h1>
+      <div class="profile-info">
+        <label for="username">Username:</label>
+        <p>  <%=  locals.userEmail    %> </p>
+        <label for="password">Password:</label>
+        <p>  <%= locals.userPass    %> </p>
+      </div>
+      <p class="profile-links">
+        <a href="#" id="edit-link">Edit Profile</a>
+        <a href="/logout" id="logout-link">Logout</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="javascript/profile.js"></script>
+</body>
+</html>
