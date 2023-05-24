@@ -32,10 +32,20 @@ res.render('index');
 
 });
 
+app.get('/help', (req, res) => {
+
+
+  res.render('help');
+
+
+});
+
 
 app.post('/login', async (req, res) => {
 
     const users = await getUsers();
+
+    let message = '';
 
     const user = users.find(user => user.email === req.body.email);
 
@@ -44,11 +54,12 @@ app.post('/login', async (req, res) => {
     }
 
     try{
-        if(user.password == req.body.password){
+        if(user.username == req.body.username){
             res.cookie('id', user['id']);
             res.redirect('/watchlist');
         } else {
-            res.status(401).send('Not Allowed');
+          return res.status(400).render('login', {message: 'Invalid user or pass'});
+          
         }
     } catch {
         res.status(500).send();
@@ -64,7 +75,7 @@ app.get('/login', async (req, res) => {
 });
 
 
-app.post('/register', async (req, res, next) => {
+app.post('/register', async (req, res) => {
 
 
   const user = {
@@ -73,11 +84,12 @@ app.post('/register', async (req, res, next) => {
         email: req.body.email
     }
 
+
   const temp = addUser(user);
 
-  if(temp.find(user => user.email === req.body.email))
-    res.redirect('/register', {message: 'User already exists'})
-    else res.redirect('/login');
+    res.redirect('login');
+
+  
 
   });
 
@@ -105,44 +117,37 @@ app.use((req, res, next) => {
 
 
   app.get('/watchlist', async (req, res) => {
+
     const users = await getUsers();
     const { cookies } = req;
     const userId = cookies['id'];
     const user = users.find((user) => user.id === userId);
-  
+
     const watchlist = await getWatchlists();
     const userWatchlist = watchlist.filter((watchlist) => watchlist.id === userId);
-  
 
     let prices = [];
-    let loading = true; 
+
+    for(let i = 0 ; i < userWatchlist.length; i++) {
+      let price = await getCryptoPrice(userWatchlist[i]['token']);
+      prices.push(price);
+  }
   
 
-    const loadingInterval = setInterval(() => {
+
+  sleep(2000);
+  res.render('watchlist', { user: user, watchlist: userWatchlist, tokenPrices: prices});
+
   
 
-      if (!loading) {
-        clearInterval(loadingInterval);
-      }
-
-    }, 500);
-  
-    
 
 
-    const renderWatchlist = () => {
-      if (!user) {
-        return res.redirect('/page-not-found', { message: 'User not found' });
-      }
-  
-      res.render('watchlist', { user: user, watchlist: userWatchlist, tokenPrices: prices, loading: !loading });
-    };
-  
-   
-    renderWatchlist();
   });
+
   
 
+
+  
   app.get('/profile', async (req, res) => {
 
 
@@ -165,7 +170,13 @@ app.use((req, res, next) => {
 
  
   
+app.get('/temp', (req, res)=>
 
+{
+  res.redirect('/watchlist');
+}
+
+);
 
 
   app.post('/watchlist', async (req, res) => {
@@ -192,7 +203,7 @@ app.use((req, res, next) => {
 
 
 
-app.use((req, res, next) => {
+app.use((req, res) => {
 
     res.status(404).render('page-not-found');
 
@@ -290,11 +301,9 @@ function getWatchlists() {
   
 
 
-  const getCryptoPrice = async (cryptoName) => {
+  const getCryptoPrice = async (cryptoName) => {  
 
-    const url = `https://min-api.cryptocompare.com/data/price?fsym=${cryptoName}&tsyms=USD`;   
-
-    const response = await fetch(url);
+    const response = await fetch(`https://min-api.cryptocompare.com/data/price?fsym=${cryptoName}&tsyms=USD`);
 
     const data = await response.json();
 
@@ -302,6 +311,15 @@ function getWatchlists() {
 
   };
   
+
+  function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
+  }
+
 
 
   
