@@ -114,7 +114,7 @@ body {
   }
   
   nav {
-    background-color: #333;
+    background-color: black;
     padding: 10px;
   }
   
@@ -147,7 +147,7 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #333;
+    background-color: black;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -163,3 +163,35 @@ body {
     padding: 10px;
     display: block;
   }
+
+
+
+@media (max-width: 600px) {
+  ul.menu {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  ul.menu li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  ul.menu li.dropdown {
+    position: static;
+  }
+  
+  ul.menu li:hover > ul.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    display: none;
+  }
+  
+  .dropdown-menu li {
+    border: none;
+  }
+}
