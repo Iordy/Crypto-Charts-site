@@ -44,11 +44,7 @@ window.onload = () => {
 
 const button = document.getElementById('register');
 
-button.onclick = () => {
 
 
-
-    
-}
 
 
