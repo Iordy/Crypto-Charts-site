@@ -43,7 +43,9 @@
   
   input[type="email"],
   input[type="text"],
-  input[type="range"] {
+  input[type="range"],
+  input[type="password"]
+  {
     width: 90%;
     padding: 2%;
     border: 1%px solid #ccc;
@@ -77,12 +79,87 @@
     background-color: #2980b9; 
   }
   
-  #ball {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    border-radius: 50%;
+
+  nav {
+    background-color: black;
+    padding: 10px;
   }
+  
+  ul.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  ul.menu li {
+    position: relative;
+  }
+  
+  ul.menu li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+  }
+  
+  ul.menu li:hover > ul.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color:black;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1;
+  }
+  
+  .dropdown-menu li {
+    border-bottom: 1px solid #555;
+  }
+  
+  .dropdown-menu li a {
+    color: #fff;
+    padding: 10px;
+    display: block;
+  }
+
+
+
+
+@media (max-width: 600px) {
+  ul.menu {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  ul.menu li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  ul.menu li.dropdown {
+    position: static;
+  }
+  
+  ul.menu li:hover > ul.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    display: none;
+  }
+  
+  .dropdown-menu li {
+    border: none;
+  }
+}
