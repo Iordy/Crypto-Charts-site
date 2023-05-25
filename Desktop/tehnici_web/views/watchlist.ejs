@@ -5,6 +5,22 @@
   <link rel="stylesheet" type="text/css" href="css/watchlist.css">
 </head>
 <body>
+
+
+  <nav>
+    <ul class="menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/watchlist">Watchlist</a></li>
+      <li class="dropdown">
+        <a href="#">More &#9662;</a>
+        <ul class="dropdown-menu">
+          <li><a href="/help">Help</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
   <header>
     <h1>My Watchlist</h1>
   </header>
@@ -20,15 +36,24 @@
     
     <ul id="watchlist">
 
-    <% const userWatchlist = locals.watchlist; %>
+    
+
+      
+      
+
+    <% const userWatchlist =  locals.watchlist; %>
+    <% const prices =  locals.tokenPrices; %>
     <% for(let i = 0; i < userWatchlist.length; i++) { %>
       <li class="cryptocurrency">
-        <div class="cryptocurrency-name">
-          <span class="delete-button">X</span>
-          <span class="name"><%= userWatchlist[i].token %></span>
+        <div class="cryptocurrency">
+
+          <span class="criptocurrency"> <%= userWatchlist[i].token %>
+            
+          </span>
+    
         </div>
-        <div class="cryptocurrency-price">
-          <span class="price"><%= userWatchlist[i].price %></span>
+        <div class="cryptocurrency">
+          <span class="price"><%= prices[i] %></span>
         </div>
       </li> 
       <%}  
